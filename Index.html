@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="te">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>వినాయక చవితి లడ్డూ టోకెన్లు — గ్రామ పంచాయతీ</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Telugu:wght@400;600;700;800&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg1:#fff6e6; /* warm cream */
+      --bg2:#fde6b5; /* soft marigold */
+      --saffron:#ff6a00;
+      --vermillion:#e53935;
+      --leaf:#2e7d32;
+      --gold:#d4a017;
+      --card:#ffffffdd;
+      --ink:#2b2b2b;
+      --accent:#b71c1c;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:"Noto Sans Telugu", system-ui, -apple-system, "Poppins", Arial, sans-serif;
+      color:var(--ink);
+      background: radial-gradient(1200px 800px at 20% -10%, #ffdca8 0%, #fff6e6 40%, #fffaf1 65%, #fff 100%);
+      overflow-x:hidden;
+    }
+    /* Subtle festive pattern */
+    body::before{
+      content:"";
+      position:fixed; inset:0;
+      background-image:
+        radial-gradient(circle at 25px 25px, rgba(255,165,0,.06) 2px, transparent 2px),
+        radial-gradient(circle at 75px 75px, rgba(255,69,0,.05) 2px, transparent 2px);
+      background-size:100px 100px;
+      pointer-events:none;
+    }
+
+    .toran{
+      position:fixed; left:0; right:0; top:0; height:110px; z-index:5; pointer-events:none;
+    }
+    .toran .string{position:absolute; left:0; right:0; top:22px; height:2px; background:linear-gradient(90deg, var(--leaf), #1b5e20);} 
+    .toran .leaf{
+      position:absolute; top:24px; width:0; height:0; border-left:12px solid transparent; border-right:12px solid transparent; border-top:28px solid var(--leaf);
+      transform-origin:50% 0;
+      animation: sway 3.6s ease-in-out infinite;
+      filter: drop-shadow(0 3px 1px rgba(0,0,0,.12));
+    }
+    .toran .flower{position:absolute; top:14px; width:18px; height:18px; background: radial-gradient(circle at 30% 30%, #ff9800, #ff6a00 60%, #d84315 100%); border-radius:50%; box-shadow:0 0 0 3px rgba(255,255,255,.6) inset; animation:pulse 2.2s ease-in-out infinite;} 
+    @keyframes sway{0%,100%{transform:rotate(-5deg)}50%{transform:rotate(6deg)}}
+    @keyframes pulse{0%,100%{transform:scale(.95)}50%{transform:scale(1.08)}}
+
+    header{
+      text-align:center; padding:140px 16px 12px; position:relative; z-index:1;
+    }
+    .mantra{
+      display:inline-block; padding:8px 14px; border-radius:999px; background:linear-gradient(90deg,#ffedd5,#fff);
+      font-weight:700; color:var(--accent); letter-spacing:.5px;
+      box-shadow:0 6px 18px rgba(229,57,53,.12);
+    }
+    h1{
+      margin:14px auto 8px; font-size:clamp(28px, 5vw, 48px); line-height:1.1; color:var(--vermillion);
+      text-shadow: 0 2px 0 rgba(255,255,255,.9);
+    }
+    .sub{
+      margin:0 auto; max-width:900px; font-size:clamp(14px, 2.4vw, 18px); opacity:.9;
+    }
+
+    .stage{
+      position:relative; display:grid; place-items:center; margin:22px auto; max-width:1100px; padding:16px;
+    }
+
+    .card{
+      position:relative; width:min(920px, 92vw); background:var(--card); backdrop-filter: blur(6px);
+      border-radius:28px; padding:22px 22px 26px; box-shadow:0 24px 60px rgba(183,28,28,.15), 0 2px 10px rgba(0,0,0,.06);
+      border:1px solid rgba(183,28,28,.15);
+    }
+    .card h2{ margin:0 0 8px; color:#b23c17; font-size:clamp(22px, 4vw, 32px)}
+    .content{ font-size:clamp(16px, 2.8vw, 20px); line-height:1.7}
+    .content .price{ display:inline-block; padding:4px 10px; margin:.35rem 0; border-radius:12px; background:linear-gradient(90deg,#fff2cc,#ffe0b2);
+      border:1px dashed #ff8f00; color:#e65100; font-weight:800}
+    .note{ background: #fff4e3; border-left:5px solid #ff9800; padding:10px 12px; border-radius:12px; margin-top:10px}
+
+    .btns{ display:flex; gap:12px; flex-wrap:wrap; margin-top:16px }
+    .btn{
+      appearance:none; border:none; border-radius:999px; padding:12px 18px; font-weight:700; cursor:pointer; 
+      background:linear-gradient(180deg, #ffd180, #ffab40); color:#5d2400; box-shadow:0 10px 20px rgba(255,171,64,.35);
+      transition: transform .15s ease, box-shadow .15s ease;
+    }
+    .btn:hover{ transform: translateY(-2px); box-shadow:0 16px 28px rgba(255,171,64,.45)}
+    .btn.alt{ background:linear-gradient(180deg, #ffcdd2, #ef9a9a); color:#5b0000; box-shadow:0 10px 20px rgba(239,154,154,.35)}
+    .btn.green{ background:linear-gradient(180deg, #c8e6c9, #a5d6a7); color:#0f3d13; box-shadow:0 10px 20px rgba(165,214,167,.35)}
+
+    /* Floating modaks (laddus) */
+    .floaters{ position:fixed; inset:0; pointer-events:none; z-index:0; }
+    .modak, .flower-float{
+      position:absolute; width:22px; height:22px; opacity:.9;
+      animation: rise linear infinite; filter: drop-shadow(0 6px 6px rgba(0,0,0,.12));
+    }
+    @keyframes rise{ from{ transform:translateY(12vh) scale(.95); opacity:.0} to{ transform:translateY(-110vh) scale(1.1); opacity:1}}
+
+    .diya-row{ display:flex; justify-content:center; gap:18px; margin:18px 0 0 }
+    .diya{
+      width:56px; height:36px; background: radial-gradient(circle at 50% 80%, #8d4c14, #5d2e07); border-radius:0 0 36px 36px; position:relative; box-shadow:0 10px 20px rgba(0,0,0,.15) inset;
+    }
+    .flame{
+      position:absolute; left:50%; top:-10px; transform:translateX(-50%);
+      width:14px; height:22px; background: radial-gradient(circle at 50% 70%, #fff59d, #ffb300 60%, #ff6f00 100%);
+      border-radius:50% 50% 50% 50% / 60% 60% 40% 40%;
+      filter: blur(.3px);
+      animation: flicker 1.2s infinite ease-in-out;
+      box-shadow:0 0 12px 4px rgba(255,193,7,.55), 0 0 22px 10px rgba(255,111,0,.25);
+    }
+    @keyframes flicker{ 0%,100%{ transform:translateX(-50%) scale(1)} 40%{ transform:translateX(-52%) scale(1.08)} 75%{ transform:translateX(-48%) scale(.92)} }
+
+    /* Simple Ganesha SVG container */
+    .ganesha{
+      position:absolute; right:-14px; bottom:-14px; width:180px; height:180px; opacity:.25; pointer-events:none;
+    }
+
+    footer{ text-align:center; padding:30px 12px 60px; color:#7a4a00}
+    .credit{ font-size:14px; opacity:.8 }
+
+    /* Fireworks canvas */
+    #fx{ position:fixed; inset:0; pointer-events:none; z-index:2; }
+
+    @media (max-width:540px){
+      .diya-row{gap:10px}
+      .diya{width:50px}
+    }
+
+    /* ------------------------------ */
+    /* ADDED: Admin/Login + List UI   */
+    /* ------------------------------ */
+    #adminPanel{
+      position:fixed; top:18px; left:18px; z-index:6;
+      display:flex; flex-direction:column; gap:10px;
+    }
+    .admin-fab{
+      border:none; border-radius:999px; padding:10px 16px; font-weight:800; cursor:pointer;
+      background:linear-gradient(135deg,#ffd180,#ffab40); color:#5b2a00;
+      box-shadow:0 10px 24px rgba(255,171,64,.4);
+      transition:transform .2s ease, box-shadow .2s ease;
+    }
+    .admin-fab:hover{ transform:translateY(-2px); box-shadow:0 16px 36px rgba(255,171,64,.55)}
+    .admin-box{
+      min-width:260px; background:#fffaf3; border:1px solid rgba(255,171,64,.5); border-radius:16px; padding:12px; box-shadow:0 16px 40px rgba(0,0,0,.12);
+      animation: adminSlide .35s ease;
+    }
+    @keyframes adminSlide{ from{opacity:0; transform:translateY(-8px)} to{opacity:1; transform:translateY(0)} }
+    .admin-box h4{margin:0 0 8px; color:#b23c17}
+    .admin-box input{
+      width:100%; padding:10px 12px; border-radius:10px; border:1px solid #ffcc80; margin:6px 0 10px;
+      outline:none; transition:.2s;
+      background:#fffdf7;
+    }
+    .admin-box input:focus{ box-shadow:0 0 0 3px rgba(255,171,64,.25); border-color:#ffb74d }
+    .admin-row{display:flex; gap:8px; flex-wrap:wrap}
+    .admin-row .btn{flex:1}
+
+    /* Registered list extras */
+    #registeredList h3{
+      margin:0 0 10px; color:#b23c17;
+      background:linear-gradient(90deg,#ff6a00,#ffd54f,#ff6a00);
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-size:200% auto;
+      animation: shimmer 3s linear infinite;
+    }
+    @keyframes shimmer{ from{background-position:-200% 0} to{background-position:200% 0} }
+    #devoteesUL{ list-style:none; padding-left:0; margin:0 }
+    .devotee-item{
+      display:flex; align-items:center; justify-content:space-between; gap:10px;
+      padding:10px 12px; margin:8px 0; border-radius:14px;
+      background:linear-gradient(90deg,#fff8e1,#ffecb3);
+      box-shadow:0 6px 14px rgba(0,0,0,.08);
+      animation: popIn .25s ease;
+    }
+    @keyframes popIn{ from{opacity:0; transform:translateY(6px) scale(.98)} to{opacity:1; transform:translateY(0) scale(1)} }
+    .devotee-meta{ font-weight:700; color:#6b3a00 }
+    .pill{
+      display:inline-block; padding:4px 10px; border-radius:999px; font-weight:800;
+      background:#ffe082; border:1px dashed #ffb300; color:#7a4a00;
+    }
+    .mini{ font-size:12px; opacity:.8 }
+
+    .list-summary{
+      margin-top:10px; font-weight:800; color:#7a4a00; display:flex; gap:12px; flex-wrap:wrap;
+    }
+    .list-summary .pill{ background:#e6f5e6; border-color:#81c784; color:#1b5e20 }
+
+    /* hide helper */
+    .hide{ display:none !important }
+  </style>
+</head>
+<body>
+  <canvas id="fx"></canvas>
+  <div class="toran" aria-hidden="true">
+    <div class="string"></div>
+  </div>
+
+  <!-- ADDED: Admin/Login Panel (top-left) -->
+  <div id="adminPanel">
+    <button class="admin-fab" id="loginToggle">🔑 Admin</button>
+
+    <div class="admin-box hide" id="loginBox" aria-live="polite">
+      <h4>Admin Login</h4>
+      <input type="text" id="userId" placeholder="User ID" inputmode="numeric" />
+      <input type="password" id="password" placeholder="Password" />
+      <div class="admin-row">
+        <button class="btn green" id="doLogin">Login</button>
+        <button class="btn alt" id="cancelLogin">Close</button>
+      </div>
+    </div>
+
+    <div class="admin-box hide" id="regBox">
+      <h4>Devotee Registration</h4>
+      <input type="text" id="devoteeName" placeholder="Name (e.g., Ramesh)" />
+      <input type="text" id="devoteeSo" placeholder="S/o (e.g., Suresh)" />
+      <input type="text" id="devoteeMobile" placeholder="Mobile Number" inputmode="numeric" />
+      <input type="number" id="devoteeTokens" placeholder="Tokens" min="1" />
+      <div class="admin-row">
+        <button class="btn green" id="addDevotee">Add</button>
+        <button class="btn" id="logoutBtn">Logout</button>
+      </div>
+      <div class="admin-row">
+        <button class="btn alt" id="clearAllBtn">Clear All</button>
+      </div>
+    </div>
+  </div>
+
+  <header>
+    <div class="mantra">శ్రీ విఘ్నేశ్వరాయ నమః</div>
+    <h1>గ్రామ ప్రజలకు తెలియజేయుట గూర్చి</h1>
+    <p class="sub">వినాయక చవితి సందర్భంగా, మన గ్రామ పంచాయతీ ఆధ్వర్యంలో లడ్డూ టోకెన్లు అందుబాటులో ఉన్నాయి. భక్తులందరూ పాల్గొని ఈ పవిత్ర కార్యక్రమాన్ని విజయవంతం చేయండి.</p>
+  </header>
+
+  <main class="stage">
+    <section class="card" id="announce">
+      <svg class="ganesha" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Minimal aesthetic Ganesha line art -->
+        <path d="M120 60c-18 0-28 9-28 20 0 9 9 16 18 16 10 0 18-7 18-16 0-6-3-12-8-16z" stroke="#b71c1c" stroke-width="4"/>
+        <path d="M110 98c6 12 2 28-10 38-7 6-16 10-26 12" stroke="#d84315" stroke-width="4"/>
+        <path d="M84 70c-18 4-34 20-36 38-2 16 8 30 26 36" stroke="#e65100" stroke-width="4"/>
+        <path d="M136 74c14 6 28 18 28 34 0 20-22 34-42 34" stroke="#f57c00" stroke-width="4"/>
+        <circle cx="122" cy="54" r="5" fill="#e53935"/>
+      </svg>
+
+      <h2>మన గ్రామ పంచాయతీ వినాయకుడి వద్ద లడ్డూ టోకెన్లు</h2>
+      <div class="content" id="msgText">
+        <p>మన గ్రామ పంచాయతీ వినాయకుడి వద్ద <strong>లడ్డూ టోకెన్లు</strong> అందుబాటులో ఉంచబడుతున్నాయి. ఆసక్తి గల గ్రామస్థులు <strong>27-08-2025</strong> ఉదయం నుండి గ్రామ పంచాయతీ గణేష్ మండపం వద్దకు వచ్చి టోకెన్లు పొందగలరు.</p>
+        <p><span class="price">➡️ ఒక్క టోకెన్ ధర: ₹21/-</span></p>
+        <p class="note"><strong>గమనిక:</strong> పొందిన టోకెన్లు వినాయక నిమజ్జనం రోజున మాత్రమే లడ్డూలు ఇవ్వబడును.</p>
+        <p>కాబట్టి ఈ పవిత్రమైన కార్యక్రమంలో గ్రామ ప్రజలందరూ పాల్గొని, విజయవంతం కావాలని ఆకాంక్షిస్తున్నాము.</p>
+      </div>
+
+      <div class="btns">
+        <button class="btn" id="copyBtn">సందేశం కాపీ చేయి</button>
+        <button class="btn green" id="waBtn">WhatsApp లో పంచుకోండి</button>
+        <button class="btn alt" id="printBtn">ప్రింట్</button>
+        <button class="btn" id="celebrateBtn">జై గణేశ్ ✨</button>
+      </div>
+
+      <div class="diya-row" aria-hidden="true">
+        <div class="diya"><div class="flame"></div></div>
+        <div class="diya"><div class="flame"></div></div>
+        <div class="diya"><div class="flame"></div></div>
+      </div>
+    </section>
+
+    <!-- ADDED: Public Registered List (visible to everyone) -->
+    <section id="registeredList" class="card">
+      <h3>📜 Registered Devotees</h3>
+      <div class="list-summary" id="listSummary" aria-live="polite"></div>
+      <ul id="devoteesUL"></ul>
+    </section>
+  </main>
+
+  <footer>
+    <p class="credit">© గ్రామ పంచాయతీ — వినాయక చవితి ప్రత్యేక ప్రకటన</p>
+  </footer>
+
+  <!-- Floating festive elements generated via JS -->
+  <div class="floaters" id="floaters" aria-hidden="true"></div>
+
+  <script>
+    // Build toran leaves & flowers across width
+    (function buildToran(){
+      const toran = document.querySelector('.toran');
+      const w = window.innerWidth; const gap = 46; let x = 10; let i=0;
+      while(x < w-20){
+        const leaf = document.createElement('div'); leaf.className='leaf';
+        leaf.style.left = x + 'px';
+        leaf.style.animationDelay = (Math.random()*2).toFixed(2)+'s';
+        toran.appendChild(leaf);
+        const fl = document.createElement('div'); fl.className='flower'; fl.style.left=(x-6)+'px'; fl.style.animationDelay=(Math.random()*2).toFixed(2)+'s'; toran.appendChild(fl);
+        x += gap; i++;
+      }
+      // add the string element if not present
+      if(!toran.querySelector('.string')){
+        const s=document.createElement('div'); s.className='string'; toran.appendChild(s);
+      }
+    })();
+
+    // Floating modaks & flowers
+    const floaters = document.getElementById('floaters');
+    const shapes = [];
+    function createModak(x){
+      const d = document.createElement('div'); d.className='modak';
+      d.style.left = x + 'px'; d.style.bottom = '-40px';
+      d.style.animationDuration = (8 + Math.random()*6)+'s';
+      d.style.transform = 'translateY(0)';
+      d.innerHTML = `
+        <svg width="22" height="22" viewBox="0 0 22 22" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="g" cx="50%" cy="40%" r="60%">
+              <stop offset="0%" stop-color="#ffe0b2"/>
+              <stop offset="60%" stop-color="#ffb74d"/>
+              <stop offset="100%" stop-color="#f57c00"/>
+            </radialGradient>
+          </defs>
+          <path d="M11 2c2 3 6 4 7 8 1 4-2 8-7 8S3 14 4 10c1-4 5-5 7-8z" fill="url(#g)"/>
+        </svg>`;
+      floaters.appendChild(d); shapes.push(d);
+      setTimeout(()=>d.remove(), 16000);
+    }
+    function createFlower(x){
+      const d = document.createElement('div'); d.className='flower-float';
+      d.style.left = x + 'px'; d.style.bottom='-40px';
+      d.style.animationDuration = (9 + Math.random()*6)+'s';
+      d.innerHTML = `
+        <svg width="22" height="22" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="12" r="5" fill="#ff9800"/>
+          <g fill="#f57c00">
+            <circle cx="12" cy="4" r="3"/><circle cx="12" cy="20" r="3"/>
+            <circle cx="4" cy="12" r="3"/><circle cx="20" cy="12" r="3"/>
+            <circle cx="6" cy="6" r="3"/><circle cx="18" cy="6" r="3"/>
+            <circle cx="6" cy="18" r="3"/><circle cx="18" cy="18" r="3"/>
+          </g>
+        </svg>`;
+      floaters.appendChild(d); setTimeout(()=>d.remove(), 17000);
+    }
+    setInterval(()=>{
+      const x = Math.random() * window.innerWidth;
+      (Math.random()<.6) ? createModak(x) : createFlower(x);
+    }, 650);
+
+    // Copy message
+    const copyBtn = document.getElementById('copyBtn');
+    copyBtn.addEventListener('click', async ()=>{
+      const text = document.getElementById('msgText').innerText.trim();
+      try{
+        await navigator.clipboard.writeText(text);
+        toast('సందేశం కాపీ అయ్యింది ✅');
+      }catch(e){
+        toast('కాపీ చేయలేకపోయాం. టెక్స్ట్‌ను సెలెక్ట్ చేసి కాపీ చేయండి.');
+      }
+    });
+
+    // WhatsApp share
+    document.getElementById('waBtn').addEventListener('click', ()=>{
+      const text = document.getElementById('msgText').innerText.trim();
+      const url = 'https://wa.me/?text=' + encodeURIComponent(text);
+      window.open(url, '_blank');
+    });
+
+    // Print
+    document.getElementById('printBtn').addEventListener('click', ()=>window.print());
+
+    // Celebrate: fireworks
+    const canvas = document.getElementById('fx'); const ctx = canvas.getContext('2d');
+    let W, H; function resize(){ W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+    window.addEventListener('resize', resize); resize();
+
+    const particles = [];
+    function firework(x, y, count=80){
+      for(let i=0;i<count;i++){
+        particles.push({
+          x, y, vx:(Math.random()-0.5)*6, vy:(Math.random()-0.5)*6-2, life: 60+Math.random()*20, r: 2+Math.random()*2,
+        });
+      }
+    }
+    function loop(){
+      ctx.clearRect(0,0,W,H);
+      for(let i=particles.length-1;i>=0;i--){
+        const p = particles[i];
+        p.life -= 1; if(p.life<=0){ particles.splice(i,1); continue; }
+        p.vy += 0.04; p.x += p.vx; p.y += p.vy;
+        ctx.globalAlpha = Math.max(0, p.life/80);
+        ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI*2); ctx.fill();
+      }
+      requestAnimationFrame(loop);
+    } loop();
+
+    document.getElementById('celebrateBtn').addEventListener('click', (e)=>{
+      const rect = e.target.getBoundingClientRect();
+      const x = rect.left + rect.width/2; const y = rect.top - 20;
+      for(let i=0;i<6;i++){ setTimeout(()=> firework(x, y, 70), i*120); }
+      toast('శ్రీ గణేశాయ నమః ✨');
+    });
+
+    // Tiny toast helper
+    const toast = (msg)=>{
+      const t = document.createElement('div');
+      t.textContent = msg; t.style.position='fixed'; t.style.bottom='24px'; t.style.left='50%'; t.style.transform='translateX(-50%)';
+      t.style.background='rgba(0,0,0,.8)'; t.style.color='#fff'; t.style.padding='10px 14px'; t.style.borderRadius='999px'; t.style.fontWeight='700'; t.style.zIndex='9999';
+      document.body.appendChild(t); setTimeout(()=>{ t.style.transition='all .4s ease'; t.style.opacity='0'; t.style.transform='translateX(-50%) translateY(12px)'; }, 1400);
+      setTimeout(()=> t.remove(), 2000);
+    }
+    
+  </script>
+
+  <!-- ADDED: Admin + Registered List logic (kept separate to avoid touching your original script) -->
+  <script>
+    // Helpers for localStorage
+    const LS_KEY = 'devotees';
+    const getList = () => JSON.parse(localStorage.getItem(LS_KEY) || '[]');
+    const setList = (arr) => localStorage.setItem(LS_KEY, JSON.stringify(arr));
+
+    const ul = document.getElementById('devoteesUL');
+    const summary = document.getElementById('listSummary');
+
+    function renderList(){
+      const list = getList();
+      ul.innerHTML = '';
+      let totalTokens = 0;
+
+      list.forEach((d, idx)=>{
+        totalTokens += Number(d.tokens||0);
+        const li = document.createElement('li');
+        li.className = 'devotee-item';
+        li.innerHTML = `
+          <span class="devotee-meta">${idx+1}. ${d.name} — S/o ${d.so} — ${d.mobile}</span>
+          <span class="pill">${d.tokens} Tokens</span>
+        `;
+        ul.appendChild(li);
+      });
+
+      summary.innerHTML = `
+        <span class="pill">Total: ${list.length}</span>
+        <span class="pill">Tokens: ${totalTokens}</span>
+      `;
+    }
+
+    // Initial render
+    renderList();
+
+    // Admin panel interactions
+    const loginToggle = document.getElementById('loginToggle');
+    const loginBox = document.getElementById('loginBox');
+    const regBox   = document.getElementById('regBox');
+    const doLogin  = document.getElementById('doLogin');
+    const cancelLogin = document.getElementById('cancelLogin');
+    const logoutBtn = document.getElementById('logoutBtn');
+    const clearAllBtn = document.getElementById('clearAllBtn');
+
+    loginToggle.addEventListener('click', ()=>{
+      loginBox.classList.toggle('hide');
+      regBox.classList.add('hide');
+    });
+
+    cancelLogin.addEventListener('click', ()=> loginBox.classList.add('hide'));
+
+    doLogin.addEventListener('click', ()=>{
+      const uid = document.getElementById('userId').value.trim();
+      const pw  = document.getElementById('password').value.trim();
+      if(uid === '9989067902' && pw === '1234567890'){
+        loginBox.classList.add('hide');
+        regBox.classList.remove('hide');
+        if(typeof toast === 'function') toast('✅ అడ్మిన్ లాగిన్ సక్సెస్!');
+      }else{
+        if(typeof toast === 'function') toast('❌ తప్పు వివరాలు!');
+      }
+    });
+
+    logoutBtn.addEventListener('click', ()=>{
+      regBox.classList.add('hide');
+      if(typeof toast === 'function') toast('🚪 Logged out');
+    });
+
+    clearAllBtn.addEventListener('click', ()=>{
+      if(confirm('Clear all registered devotees?')){
+        setList([]);
+        renderList();
+        if(typeof toast === 'function') toast('🧹 List cleared');
+      }
+    });
+
+    // Add devotee
+    document.getElementById('addDevotee').addEventListener('click', ()=>{
+      const name = document.getElementById('devoteeName').value.trim();
+      const so   = document.getElementById('devoteeSo').value.trim();
+      const mob  = document.getElementById('devoteeMobile').value.trim();
+      const tok  = document.getElementById('devoteeTokens').value.trim();
+
+      if(!name || !so || !mob || !tok){
+        if(typeof toast === 'function') toast('దయచేసి అన్ని వివరాలు ఇవ్వండి');
+        return;
+      }
+      // basic mobile sanity (optional)
+      if(mob.replace(/\D/g,'').length < 8){
+        if(typeof toast === 'function') toast('📱 సరైన మొబైల్ నంబర్ ఇవ్వండి');
+        return;
+      }
+
+      const list = getList();
+      list.push({name, so, mobile: mob, tokens: tok});
+      setList(list);
+      renderList();
+
+      // reset inputs
+      document.getElementById('devoteeName').value='';
+      document.getElementById('devoteeSo').value='';
+      document.getElementById('devoteeMobile').value='';
+      document.getElementById('devoteeTokens').value='';
+
+      // Celebrate with fireworks near header
+      const cx = window.innerWidth/2, cy = window.innerHeight/3;
+      if(typeof firework === 'function'){
+        for(let i=0;i<4;i++) setTimeout(()=>firework(cx,cy,80), i*120);
+      }
+      if(typeof toast === 'function') toast('🎉 నమోదు పూర్తయ్యింది!');
+    });
+  </script>
+</body>
+</html>
